@@ -30,7 +30,8 @@ Domain → Application → Infrastructure → Presentation (API + Web)
 | API | `GestioneCondominio.ApiService` | ASP.NET Core Web API |
 | Web | `GestioneCondominio.Web` | Blazor WebAssembly with MudBlazor |
 | Shared | `GestioneCondominio.Shared` | Shared contracts between API and Web |
-| Orchestration | `GestioneCondominio.AppHost` | .NET Aspire orchestrator |
+| Service Defaults | `GestioneCondominio.ServiceDefaults` | OpenTelemetry, Vault configuration provider, service discovery |
+| Orchestration | `GestioneCondominio.AppHost` | .NET Aspire orchestrator (PostgreSQL, Redis, Vault) |
 
 ## Tech Stack
 
@@ -38,6 +39,7 @@ Domain → Application → Infrastructure → Presentation (API + Web)
 - **Blazor WebAssembly** with **MudBlazor**
 - **PostgreSQL 16+** with **EF Core** and **Npgsql**
 - **WolverineFx** (mediator / message bus for CQRS)
+- **HashiCorp Vault** (secret management via VaultSharp)
 - **FluentValidation**, **Mapperly**, **Serilog**, **OpenTelemetry**
 - **xUnit**, **FluentAssertions**, **Testcontainers**, **bUnit**
 
@@ -49,16 +51,22 @@ Row-level isolation via `FirmId` discriminator with EF Core Global Query Filters
 
 ### Prerequisites
 
-- [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
-- [Docker](https://www.docker.com/) (for PostgreSQL via Aspire)
+- [.NET SDK 10.0+](https://dotnet.microsoft.com/download)
+- [Docker](https://www.docker.com/) (for PostgreSQL, Redis, and Vault via Aspire)
 
 ### Run with .NET Aspire
 
 ```bash
+# Configure Vault dev root token (first time only)
+cd GestioneCondominio.AppHost
+dotnet user-secrets set "Parameters:vault-root-token" "dev-root-token"
+cd ..
+
+# Start the application
 dotnet run --project GestioneCondominio.AppHost/GestioneCondominio.AppHost.csproj
 ```
 
-This starts the API, Web frontend, and a PostgreSQL container. Migrations are applied automatically at startup.
+This starts the API, Web frontend, PostgreSQL, Redis, and HashiCorp Vault containers. Migrations are applied automatically at startup. Vault UI is available at `http://localhost:8200`.
 
 ### Build
 

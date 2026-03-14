@@ -11,6 +11,15 @@ var redis = builder.AddRedis("redis")
     .WithDataVolume("gestionecondominio-redis-data")
     .WithRedisCommander();
 
+var vaultDevRootToken = builder.AddParameter("vault-root-token", secret: true);
+
+var vault = builder.AddContainer("vault", "hashicorp/vault", "latest")
+    .WithVolume("gestionecondominio-vault-data", "/vault/data")
+    .WithHttpEndpoint(port: 8200, targetPort: 8200, name: "vault-api")
+    .WithEnvironment("VAULT_DEV_ROOT_TOKEN_ID", vaultDevRootToken)
+    .WithEnvironment("VAULT_DEV_LISTEN_ADDRESS", "0.0.0.0:8200")
+    .WithArgs("server", "-dev");
+
 // Migration service — runs first, applies EF Core migrations
 var migrationService = builder.AddProject<Projects.GestioneCondominio_MigrationService>("migration-service")
     .WithReference(condominioDb)
@@ -20,8 +29,11 @@ var migrationService = builder.AddProject<Projects.GestioneCondominio_MigrationS
 var apiService = builder.AddProject<Projects.GestioneCondominio_ApiService>("api-service")
     .WithReference(condominioDb)
     .WithReference(redis)
+    .WithEnvironment("VAULT__URL", vault.GetEndpoint("vault-api"))
+    .WithEnvironment("VAULT__TOKEN", vaultDevRootToken)
     .WaitFor(condominioDb)
     .WaitFor(redis)
+    .WaitFor(vault)
     .WaitForCompletion(migrationService);
 
 // Blazor WebAssembly frontend

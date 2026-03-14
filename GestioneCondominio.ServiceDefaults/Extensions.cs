@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using VaultSharp.Extensions.Configuration;
 
 namespace Microsoft.Extensions.Hosting;
 
@@ -14,6 +15,7 @@ public static class Extensions
 {
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        builder.AddVaultConfiguration();
         builder.ConfigureOpenTelemetry();
         builder.AddDefaultHealthChecks();
         builder.Services.AddServiceDiscovery();
@@ -69,6 +71,35 @@ public static class Extensions
     {
         builder.Services.AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+
+        return builder;
+    }
+
+    public static TBuilder AddVaultConfiguration<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    {
+        var vaultUrl = builder.Configuration["VAULT__URL"];
+        var vaultToken = builder.Configuration["VAULT__TOKEN"];
+
+        if (string.IsNullOrWhiteSpace(vaultUrl) || string.IsNullOrWhiteSpace(vaultToken))
+        {
+            return builder;
+        }
+
+        var appName = builder.Environment.ApplicationName
+            .Replace(".", "-")
+            .ToLowerInvariant();
+
+        builder.Configuration.AddVaultConfiguration(
+            () => new VaultOptions(
+                vaultUrl,
+                vaultToken,
+                reloadOnChange: true,
+                reloadCheckIntervalSeconds: 300,
+                additionalCharactersForConfigurationPath: ['.', '-']),
+            appName,
+            "secret");
+
+        builder.Services.AddHostedService<VaultChangeWatcher>();
 
         return builder;
     }

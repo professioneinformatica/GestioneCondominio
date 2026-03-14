@@ -3,7 +3,6 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.1.2" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="13.1.2" />
-    <PackageReference Include="AzureKeyVaultEmulator.Aspire.Hosting" Version="2.8.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +15,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>9bba26bf-b8f7-4205-bf78-0fc08d7203d7</UserSecretsId>
   </PropertyGroup>
 
 </Project>
