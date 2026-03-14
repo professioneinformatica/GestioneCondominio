@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <UserSecretsId>dotnet-GestioneCondominio.MigrationService-49f74f67-935f-4bcf-80ad-0305d4cf07bc</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestioneCondominio.Infrastructure\GestioneCondominio.Infrastructure.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.ServiceDefaults\GestioneCondominio.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>

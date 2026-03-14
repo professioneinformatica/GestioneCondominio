@@ -1,0 +1,6 @@
+@GestioneCondominio.ApiService_HostAddress = http://localhost:5120
+
+GET {{GestioneCondominio.ApiService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

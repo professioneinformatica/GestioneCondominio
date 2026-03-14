@@ -1,0 +1,21 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.1.2">
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.1.2" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="13.1.2" />
+    <PackageReference Include="AzureKeyVaultEmulator.Aspire.Hosting" Version="2.8.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestioneCondominio.ServiceDefaults\GestioneCondominio.ServiceDefaults.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\GestioneCondominio.ApiService\GestioneCondominio.ApiService.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.Web\GestioneCondominio.Web.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.MigrationService\GestioneCondominio.MigrationService.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+  </PropertyGroup>
+
+</Project>

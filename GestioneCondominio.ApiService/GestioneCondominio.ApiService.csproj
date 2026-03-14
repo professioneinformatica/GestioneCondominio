@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.1.2" />
+    <PackageReference Include="Aspire.StackExchange.Redis" Version="13.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestioneCondominio.Application\GestioneCondominio.Application.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.Shared\GestioneCondominio.Shared.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.Infrastructure\GestioneCondominio.Infrastructure.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.ServiceDefaults\GestioneCondominio.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

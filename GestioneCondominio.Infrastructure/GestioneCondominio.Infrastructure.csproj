@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestioneCondominio.Domain\GestioneCondominio.Domain.csproj" />
+    <ProjectReference Include="..\GestioneCondominio.Application\GestioneCondominio.Application.csproj" />
+  </ItemGroup>
+
+
+</Project>

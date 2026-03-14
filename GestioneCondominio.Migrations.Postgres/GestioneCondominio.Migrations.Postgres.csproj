@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestioneCondominio.Infrastructure\GestioneCondominio.Infrastructure.csproj" />
+  </ItemGroup>
+
+
+</Project>
